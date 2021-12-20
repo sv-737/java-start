@@ -9,11 +9,11 @@ public class CreateGroup extends CommonSteps {
     @Test
     public void testGroup() throws Exception {
 
-        app.gotoGroupsPage();
-        app.createNewGroup();
-        app.fillParametersToNewGroup(new GroupData("test1", "test2", "test3"));
-        app.submitNewGroupCreation();
-        app.gotoGroups();
+        app.getNavigationHelper().gotoGroupsPage();
+        app.getGroupHelper().createNewGroup();
+        app.getGroupHelper().fillParametersToNewGroup(new GroupData("test1", "test2", "test3"));
+        app.getGroupHelper().submitNewGroupCreation();
+        app.getGroupHelper().gotoGroups();
         app.logout();
     }
 

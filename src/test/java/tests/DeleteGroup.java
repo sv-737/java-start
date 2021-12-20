@@ -8,10 +8,10 @@ public class DeleteGroup extends CommonSteps {
 
   @Test
   public void testDeleteGroup() throws Exception {
-    app.gotoGroupsPage();
-    app.selectGroup();
-    app.deleteGroup();
-    app.gotoGroups();
+    app.getNavigationHelper().gotoGroupsPage();
+    app.getGroupHelper().selectGroup();
+    app.getGroupHelper().deleteGroup();
+    app.getGroupHelper().gotoGroups();
     app.logout();
   }
 
