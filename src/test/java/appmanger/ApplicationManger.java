@@ -1,19 +1,18 @@
-import Data.GroupData;
+package appmanger;
+
+import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 
 import java.util.concurrent.TimeUnit;
 
-public class CommonSteps {
+public class ApplicationManger {
     private WebDriver driver;
 
-    @BeforeClass(alwaysRun = true)
-    public void setUp() throws Exception {
+    public void init() {
         System.setProperty("webdriver.chrome.driver", "/Users/viktorsergienko/Downloads/chromedriver");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -27,19 +26,19 @@ public class CommonSteps {
         driver.findElement(By.xpath("//input[@value='Login']")).click();
     }
 
-    protected void logout() {
+    public void logout() {
         driver.findElement(By.linkText("Logout")).click();
     }
 
-    protected void gotoGroups() {
+    public void gotoGroups() {
         driver.findElement(By.linkText("group page")).click();
     }
 
-    protected void submitNewGroupCreation() {
+    public void submitNewGroupCreation() {
         driver.findElement(By.name("submit")).click();
     }
 
-    protected void fillParametersToNewGroup(GroupData groupData) {
+    public void fillParametersToNewGroup(GroupData groupData) {
         driver.findElement(By.name("group_name")).clear();
         driver.findElement(By.name("group_name")).sendKeys(groupData.groupName());
         driver.findElement(By.name("group_header")).clear();
@@ -48,16 +47,15 @@ public class CommonSteps {
         driver.findElement(By.name("group_footer")).sendKeys(groupData.groupDescription());
     }
 
-    protected void createNewGroup() {
+    public void createNewGroup() {
         driver.findElement(By.name("new")).click();
     }
 
-    protected void gotoGroupsPage() {
+    public void gotoGroupsPage() {
         driver.findElement(By.linkText("groups")).click();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() throws Exception {
+    public void stop() {
         driver.quit();
     }
 
@@ -79,11 +77,11 @@ public class CommonSteps {
         }
     }
 
-    protected void deleteGroup() {
+    public void deleteGroup() {
       driver.findElement(By.name("delete")).click();
     }
 
-    protected void selectGroup() {
+    public void selectGroup() {
       driver.findElement(By.name("selected[]")).click();
     }
 }
