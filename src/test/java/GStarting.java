@@ -1,3 +1,4 @@
+import Data.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -20,31 +21,62 @@ public class GStarting {
         //baseUrl = "https://www.google.com/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         //js = (JavascriptExecutor) driver;
+        login("admin", "secret");
     }
+
+    public void login(String login, String password){
+        driver.get("http://localhost/addressbook/index.php");
+        //driver.findElement(By.name("user")).clear();
+        driver.findElement(By.name("user")).sendKeys(login);
+        //driver.findElement(By.name("pass")).click();
+        //driver.findElement(By.name("pass")).clear();
+        driver.findElement(By.name("pass")).sendKeys(password);
+        driver.findElement(By.xpath("//input[@value='Login']")).click();
+    }
+
 
     @Test
     public void testGrup() throws Exception {
-        driver.get("http://localhost/addressbook/index.php");
-        driver.findElement(By.name("user")).clear();
-        driver.findElement(By.name("user")).sendKeys("admin");
-        driver.findElement(By.name("pass")).click();
-        driver.findElement(By.name("pass")).clear();
-        driver.findElement(By.name("pass")).sendKeys("secret");
-        driver.findElement(By.xpath("//input[@value='Login']")).click();
-        driver.findElement(By.linkText("groups")).click();
-        driver.findElement(By.name("new")).click();
-        driver.findElement(By.name("group_name")).click();
-        driver.findElement(By.name("group_name")).clear();
-        driver.findElement(By.name("group_name")).sendKeys("test1");
-        driver.findElement(By.name("group_header")).click();
-        driver.findElement(By.name("group_header")).clear();
-        driver.findElement(By.name("group_header")).sendKeys("test2");
-        driver.findElement(By.name("group_footer")).click();
-        driver.findElement(By.name("group_footer")).clear();
-        driver.findElement(By.name("group_footer")).sendKeys("test3");
-        driver.findElement(By.name("submit")).click();
-        driver.findElement(By.linkText("group page")).click();
+
+        gotoGroupsPage();
+        createNewGroup();
+        fillParametersToNewGroup(new GroupData("test1", "test2", "test3"));
+        submitNewGroupCreation();
+        gotoGroups();
+        logout();
+    }
+
+    private void logout() {
         driver.findElement(By.linkText("Logout")).click();
+    }
+
+    private void gotoGroups() {
+        driver.findElement(By.linkText("group page")).click();
+    }
+
+    private void submitNewGroupCreation() {
+        driver.findElement(By.name("submit")).click();
+    }
+
+
+    private void fillParametersToNewGroup(GroupData groupData) {
+        //driver.findElement(By.name("group_name")).click();
+        driver.findElement(By.name("group_name")).clear();
+        driver.findElement(By.name("group_name")).sendKeys(groupData.groupName());
+        //driver.findElement(By.name("group_header")).click();
+        driver.findElement(By.name("group_header")).clear();
+        driver.findElement(By.name("group_header")).sendKeys(groupData.groupTitle());
+        //driver.findElement(By.name("group_footer")).click();
+        driver.findElement(By.name("group_footer")).clear();
+        driver.findElement(By.name("group_footer")).sendKeys(groupData.groupDescription());
+    }
+
+    private void createNewGroup() {
+        driver.findElement(By.name("new")).click();
+    }
+
+    private void gotoGroupsPage() {
+        driver.findElement(By.linkText("groups")).click();
     }
 
     @AfterClass(alwaysRun = true)
@@ -74,18 +106,4 @@ public class GStarting {
         }
     }
 
-    // private String closeAlertAndGetItsText() {
-    //    try {
-    //        Alert alert = driver.switchTo().alert();
-    //        String alertText = alert.getText();
-    //        if (acceptNextAlert) {
-    //            alert.accept();
-    //        } else {
-    //            alert.dismiss();
-    //        }
-    //        return alertText;
-    //    } finally {
-    //       acceptNextAlert = true;
-    // }
-    //}
 }
