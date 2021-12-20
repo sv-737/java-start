@@ -8,4 +8,10 @@ repositories {
 
 dependencies{
     implementation 'org.testng:testng:7.4.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testImplementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.0'
 }
